@@ -1,12 +1,12 @@
 read_logger_data <- function(filepath,lines_to_skip=0,mid_freq=150100){
   data<-read.csv2(filepath, skip=lines_to_skip,stringsAsFactors = FALSE, dec = ".")
-  data$Duration<-as.numeric(data$Duration)
-  data$HighLevel<-as.numeric(data$HighLevel)
-  data$RelFreq1<-as.numeric(data$RelFreq1)
-  data<-na.omit(data)
-  data$timestamp<-as.POSIXct(paste(data$Date, data$Time), "%d.%m.%Y %H:%M:%S", tz="UTC")
+  data$Duration<-as.numeric(data$duration)
+  data$HighLevel<-as.numeric(data$strength)
+  data$RelFreq1<-as.numeric(data$freq)/1000
+  #data<-na.omit(data)
+  data$timestamp<-as.POSIXct(data$time, "%Y-%m-%d %H:%M:%S", tz="UTC")
   data$RelFreq1<-data$RelFreq1+mid_freq
-  data<-na.omit(data)
+  #data<-na.omit(data)
   return(data)
 }
 
@@ -34,7 +34,7 @@ filter_data_freq <- function(data,freq,freq_error,mid_freq,freq_labels = NULL){
   freq_name<-paste0(as.character((freq)/1000),"MHz")
   #one_inv<-subset(data, (RelFreq1> low_freq) & (RelFreq1< high_freq) & (Duration > low_pulse_len) & (Duration < high_pulse_len) )
   
-  data$timestamp<-as.POSIXct(paste(data$Date, data$Time), "%d.%m.%Y %H:%M:%S", tz="UTC")
+  #data$timestamp<-as.POSIXct(paste(data$Date, data$, "%Y-%m-%d %H:%M:%S", tz="UTC")
   return(data)
 }
 
